@@ -1470,8 +1470,20 @@ limitations under the License.
     std.uniq(std.sort(arr, keyF), keyF),
 
   setMember(x, arr, keyF=id)::
-    // TODO(dcunnin): Binary chop for O(log n) complexity
-    std.length(std.setInter([x], arr, keyF)) > 0,
+    local xk = keyF(x);
+    local aux(i, j) =
+      if i > j then
+        false
+      else
+        local m = i + std.floor((j - i) / 2);
+        local mk = keyF(arr[m]);
+        if mk < xk then
+          aux(m + 1, j)
+        else if mk > xk then
+          aux(i, m - 1)
+        else
+          true;
+    aux(0, std.length(arr) - 1),
 
   setUnion(a, b, keyF=id)::
     // NOTE: order matters, values in `a` win
