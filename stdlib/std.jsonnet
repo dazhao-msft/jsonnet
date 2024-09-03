@@ -1475,7 +1475,7 @@ limitations under the License.
       if i > j then
         false
       else
-        local m = i + std.floor((j - i) / 2);
+        local m = i + ((j - i) >> 1);
         local mk = keyF(arr[m]);
         if mk < xk then
           aux(m + 1, j)
